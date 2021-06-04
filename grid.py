@@ -2,16 +2,28 @@ from configs import *
 
 class Grid():
     def __init__(self):
-        self.__grids = {"active" : [[0]*30]*30, "inactive" : [[0]*30]*30}            
+        self.__rows = []
+        for r in range(LENGHT):
+            col = [0]*LENGHT
+            self.__rows.append(col)
+        self.__grids = {"active" : self.__rows, "inactive" : self.__rows}
+        self.__status = "active"
+    
+    def get_cell(self, r, c):
+        try:
+            value = self.__grids[self.__status][r][c]
+        except:
+            value = 0
+        return value
 
     def set_cell(self, value=None):
-        for row in range(30):
-            for tile in range(30):
+        for row in range(LENGHT):
+            for col in range(LENGHT):
                 if value == None:
                     cell = random.choice([0,1])
                 else:
                     cell = value
-                self.__grids["active"][row][tile] = cell
+                self.__grids[self.__status][row][col] = cell
 
     @property
     def active(self):
@@ -21,6 +33,10 @@ class Grid():
     def inactive(self):
         return self.__grids["inactive"]
 
+    @property
+    def status(self):
+        return self.__status
+
     @active.setter
     def active(self, value):
         self.__grids["active"] = value
@@ -29,42 +45,8 @@ class Grid():
     def inactive(self, value):
         self.__grids["inactive"] = value
 
-    def update(self):
-        pass
-        '''row_count = 0
-        for row in self.__grids["active"]:
-            col_count = 0
-            for tile in row:
+    @status.setter
+    def status(self, value):
+        self.__status = value
+    
 
-                if col_count != 0:
-                    if self.__matrix[row][tile-1]:
-                        pass
-
-                if col_count != 29:
-                    if self.__matrix[row][tile+1]:
-                        pass
-
-                if row_count != 0:
-                    if self.__matrix[row-1][tile] == 1:
-                        pass
-                    if self.__matrix[row-1][tile-1] == 1:
-                        pass
-                    if self.__matrix[row-1][tile+1] == 1:
-                        pass
-
-                if row_count != 29:
-                    if self.__matrix[row+1][tile] == 1:
-                        pass
-                    if self.__matrix[row+1][tile-1] == 1:
-                        pass
-                    if self.__matrix[row+1][tile+1] == 1:
-                        pass
-
-                if tile == 0:
-                    pass
-                elif tile == 1:
-                    pass
-            
-            col_count += 1
-        row_count += 1
-    '''
